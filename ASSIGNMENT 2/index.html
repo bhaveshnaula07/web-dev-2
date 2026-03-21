@@ -144,7 +144,7 @@
     </div>
 
     <script>
-        const API_KEY = "af9f63c59a649f27d602b96a43d0bd14";
+        const API_KEY = "fce2c01e46c9e3d125ab1b9b76082073";
         //    const API_KEY = "af9f63c59a649f27d602b96a43d0bd14";
 
         const weatherBox = document.getElementById("weather");
@@ -188,11 +188,39 @@
 
         /* ---------- SAVE SEARCH HISTORY ---------- */
         function saveHistory(city) {
+            let history = JSON.parse(localStorage.getItem("weatherHistory")) || [];
+
+    
+    if (!history.includes(city)) {
+        history.unshift(city); 
+
+        if (history.length > 5) {
+            history.pop();
+        }
+
+        localStorage.setItem("weatherHistory", JSON.stringify(history));
+    }
+
+    showHistory();
             
         }
 
         /* ---------- SHOW HISTORY ---------- */
         function showHistory() {
+            let history = JSON.parse(localStorage.getItem("weatherHistory")) || [];
+
+    historyBox.innerHTML = "";
+
+    history.forEach(city => {
+        const btn = document.createElement("button");
+        btn.innerText = city;
+
+        btn.onclick = () => {
+            search(city);
+        };
+
+        historyBox.appendChild(btn);
+    });
            
         }
 
